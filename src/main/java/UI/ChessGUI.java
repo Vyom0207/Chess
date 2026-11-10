@@ -1,10 +1,74 @@
 package UI;
 import javax.swing.*;
 import java.awt.*;
+import model.*;
 
 public class ChessGUI {
 
+    // BASICALLY UPDATING ALL THE IMAGES ON THE BUTTONS
+    static void Refresh(Piece[][] piece, JButton[][] buttons)
+    {
+        for(int i=0; i<=7; i++)
+        {
+            for(int j=0; j<=7; j++)
+            {               
+                if(piece[i][j]!=null)
+                {
+                    if(piece[i][j].color.equals("BLACK"))
+                    {
+                        if(piece[i][j].type.equals("ROOK")){
+                            buttons[i][j].setIcon(loadPiece("src/main/resources/Images/black_rook.png"));
+                        } else if(piece[i][j].type.equals("BISHOP")){
+                            buttons[i][j].setIcon(loadPiece("src/main/resources/Images/black_bishop.png"));
+                        } else if(piece[i][j].type.equals("KING")){
+                            buttons[i][j].setIcon(loadPiece("src/main/resources/Images/black_king.png"));
+                        } else if(piece[i][j].type.equals("QUEEN")){
+                            buttons[i][j].setIcon(loadPiece("src/main/resources/Images/black_queen.png"));
+                        } else if(piece[i][j].type.equals("PAWN")){
+                            buttons[i][j].setIcon(loadPiece("src/main/resources/Images/black_pawn.png"));
+                        } else if(piece[i][j].type.equals("KNIGHT")){
+                            buttons[i][j].setIcon(loadPiece("src/main/resources/Images/black_knight.png"));
+                        }
+
+                    } else if(piece[i][j].color.equals("WHITE"))
+                    {
+                        if(piece[i][j].type.equals("ROOK")){
+                            buttons[i][j].setIcon(loadPiece("src/main/resources/Images/white_rook.png"));
+                        } else if(piece[i][j].type.equals("BISHOP")){
+                            buttons[i][j].setIcon(loadPiece("src/main/resources/Images/white_bishop.png"));
+                        } else if(piece[i][j].type.equals("KING")){
+                            buttons[i][j].setIcon(loadPiece("src/main/resources/Images/white_king.png"));
+                        } else if(piece[i][j].type.equals("QUEEN")){
+                            buttons[i][j].setIcon(loadPiece("src/main/resources/Images/white_queen.png"));
+                        } else if(piece[i][j].type.equals("PAWN")){
+                            buttons[i][j].setIcon(loadPiece("src/main/resources/Images/white_pawn.png"));
+                        } else if(piece[i][j].type.equals("KNIGHT")){
+                            buttons[i][j].setIcon(loadPiece("src/main/resources/Images/white_knight.png"));
+                        }
+                    }
+                } else {
+                    buttons[i][j].setIcon(null);
+                } 
+            }
+        }
+    }
+
+    private static ImageIcon loadPiece(String path){
+
+        ImageIcon image = new ImageIcon(path);
+
+        Image scaled = image.getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+
+        return new ImageIcon(scaled);
+    }
+
     public static void main(String[] args) {
+        
+        // creating an instance of board nd then obtaining all the pieces
+        Board board = new Board(); 
+        Piece[][] piece = board.getSquares();
+
+        // creating the frame
         JFrame frame = new JFrame("Chess");
 
         JPanel mainPanel = new JPanel();
@@ -19,24 +83,28 @@ public class ChessGUI {
         Color light = new Color(240, 217, 181);
         Color dark = new Color(181, 136, 99);
 
+        // creating 64 buttons space
+        JButton[][] buttons = new JButton[8][8];
         for(int row = 0; row < 8; row++){
             for(int col = 0; col < 8; col++){
+                //creating the button
+                buttons[row][col] = new JButton();
 
-                JButton button = new JButton();
                 if((row + col) % 2 == 0){
-                    button.setBackground(light);
+                    buttons[row][col].setBackground(light);
                 } else {
-                    button.setBackground(dark);
+                    buttons[row][col].setBackground(dark);
                 }
 
-                button.setOpaque(true);
-                button.setBorderPainted(false);
-                button.setFocusable(false);
+                buttons[row][col].setOpaque(true);
+                buttons[row][col].setBorderPainted(false);
+                buttons[row][col].setFocusable(false);
 
-                boardPanel.add(button);
+                boardPanel.add(buttons[row][col]);
 
             }
         }
+
 
 
         // MOVE HISTORY
@@ -65,6 +133,10 @@ public class ChessGUI {
         frame.setSize(1000,750);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+    
+        // refresh everything
+        Refresh(piece, buttons);
 
     }
 
