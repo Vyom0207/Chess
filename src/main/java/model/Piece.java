@@ -1,10 +1,13 @@
 package model;
 
-public class Piece {
+import java.util.List;
+
+public abstract class Piece {
     
     public String color;
     public String type;
     public int pieceValue;
+    static Board board = new Board();
     
     public enum Color{
         W, B;
@@ -19,5 +22,7 @@ public class Piece {
         this.type = type;
         this.pieceValue = pieceValue;
     }
+
+    public abstract List<int[]> getValidMoves(Board board, int row, int col);
 
 }

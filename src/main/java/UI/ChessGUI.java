@@ -83,6 +83,9 @@ public class ChessGUI {
         Color light = new Color(240, 217, 181);
         Color dark = new Color(181, 136, 99);
 
+        // creating a single shared listener
+        BoardClickListener listener = new BoardClickListener(board);
+
         // creating 64 buttons space
         JButton[][] buttons = new JButton[8][8];
         for(int row = 0; row < 8; row++){
@@ -95,6 +98,12 @@ public class ChessGUI {
                 } else {
                     buttons[row][col].setBackground(dark);
                 }
+
+                // stores coordinates inside the button client property
+                buttons[row][col].putClientProperty("row", row);
+                buttons[row][col].putClientProperty("col", col);
+
+                buttons[row][col].addActionListener(listener);
 
                 buttons[row][col].setOpaque(true);
                 buttons[row][col].setBorderPainted(false);

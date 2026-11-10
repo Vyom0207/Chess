@@ -30,7 +30,7 @@ public class Board {
         squares[0][7] = new Rook("BLACK");
 
         for(int i=0; i<=7; i++)
-            squares[1][i] = new Pawn("BLACK");
+            squares[1][i] = new Pawn("BLACK" );
 
         // WHITE PIECES
         squares[7][0] = new Rook("WHITE");
