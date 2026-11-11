@@ -4,13 +4,15 @@ import java.util.List;
 
 public class Queen extends Piece {
 
-    public Queen(String color){
-        super(color, "QUEEN",9);
+    public Queen(String color, int timesMoved){
+        super(color, "QUEEN",9,  timesMoved);
         this.pieceValue = 9;
     }
 
+    
+
     @Override
-    public List<int[]> getValidMoves(Board board, int row, int col, String color) {
+    public List<int[]> getValidMoves(Board board, int row, int col) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getValidMoves'");
     }

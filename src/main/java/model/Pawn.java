@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Pawn extends Piece{
 
-    public Pawn(String color){
-        super(color, "PAWN",1);
+    public Pawn(String color, int timesMoved){
+        super(color, "PAWN",1, timesMoved);
         this.pieceValue = 1;
     }
 
@@ -17,32 +17,41 @@ public class Pawn extends Piece{
     // PAWN movement logic
     int currentRow = row;
     int currentCol = col;
-    List<int[]> moves = new ArrayList<int[]>();
+    List<int[]> availableMoves = new ArrayList<int[]>();
     
     if(color.equals("WHITE"))
     {    
             if(currentRow>0)
             {
-                // check straight path
+                // check straight path 
             Piece pieceAtFrontOfW = board.getPiece(currentRow-1, currentCol);
             if(pieceAtFrontOfW==null)
-                moves.add(new int[]{currentRow-1, currentCol});
+            {
+                availableMoves.add(new int[]{currentRow-1, currentCol});
+                // double move implementation if pawn is moving for the first time;
+                if(this.timesMoved == 0)
+                {
+                    if(board.getPiece(currentRow-2, currentCol) == null)
+                        availableMoves.add(new int[]{currentRow-2, currentCol});
+                }
 
-            // check diagnol moves if possible
+            }
+
+            // check diagnol availableMoves if possible
             if(currentCol>0 && currentCol<7)
             {
                 for(int i=currentCol-1; i<=currentCol+1; i+=2)
                 {
                     Piece PieceSurroundingW = board.getPiece(currentRow-1, i);
                     if(PieceSurroundingW!=null && PieceSurroundingW.color.equals("BLACK"))
-                        moves.add(new int[]{currentRow-1, i});
-                } // check diagnal moves if youre at a corner  and check if the square is empty before
+                        availableMoves.add(new int[]{currentRow-1, i});
+                } // check diagnal availableMoves if youre at a corner  and check if the square is empty before
             } else if(currentCol == 0 && board.getPiece(currentRow-1, currentCol+1)!=null && board.getPiece(currentRow-1, currentCol+1).color.equals("BLACK"))
             {
-                    moves.add(new int[]{currentRow-1, currentCol+1});
+                    availableMoves.add(new int[]{currentRow-1, currentCol+1});
             } else if(currentCol == 7 && board.getPiece(currentRow-1, currentCol-1)!=null && board.getPiece(currentRow-1, currentCol-1).color.equals("BLACK"))
             {
-                    moves.add(new int[]{currentRow-1, currentCol-1}); 
+                    availableMoves.add(new int[]{currentRow-1, currentCol-1}); 
             }
             }
 
@@ -53,33 +62,40 @@ public class Pawn extends Piece{
                 // check straight path
             Piece pieceAtFrontOfB = board.getPiece(currentRow+1, currentCol);
             if(pieceAtFrontOfB==null)
-                moves.add(new int[]{currentRow+1, currentCol});
+            {
+                availableMoves.add(new int[]{currentRow+1, currentCol});
+                // double move implementation if pawn is moving for the first time;
+                if(board.getPiece(currentRow+2, currentCol) == null)
+                    availableMoves.add(new int[]{currentRow+2, currentCol});
 
-            // check diagnol moves if possible
+            }
+
+            // check diagnol availableMoves if possible
             if(currentCol>0 && currentCol<7)
             {
                 for(int i=currentCol-1; i<=currentCol+1; i+=2)
                 {
                     Piece PieceSurroundingB = board.getPiece(currentRow+1, i);
                     if(PieceSurroundingB!=null && PieceSurroundingB.color.equals("WHITE"))
-                        moves.add(new int[]{currentRow+1, i});
-                } // check diagnal moves if youre at a corner  and check if the square is empty before
+                        availableMoves.add(new int[]{currentRow+1, i});
+                } // check diagnal availableMoves if youre at a corner  and check if the square is empty before
             } else if(currentCol == 0 && board.getPiece(currentRow+1, currentCol+1)!=null && board.getPiece(currentRow+1, currentCol+1).color.equals("WHITE"))
             {
-                    moves.add(new int[]{currentRow+1, currentCol+1});
+                    availableMoves.add(new int[]{currentRow+1, currentCol+1});
             } else if(currentCol == 7 && board.getPiece(currentRow+1, currentCol-1)!=null && board.getPiece(currentRow+1, currentCol-1).color.equals("WHITE"))
             {
-                    moves.add(new int[]{currentRow+1, currentCol-1});
+                    availableMoves.add(new int[]{currentRow+1, currentCol-1});
             }
             }
 
     }
     
-    for(int[] move : moves)
+    for(int[] move : availableMoves)
     {
         System.out.println(Arrays.toString(move));
+        System.out.println();
     }
-    return moves;
+    return availableMoves;
 
     }
     

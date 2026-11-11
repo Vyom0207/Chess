@@ -1,0 +1,32 @@
+int[][] directions = {
+            {1,1},
+            {-1,-1},
+            {1,-1},
+            {-1,1}
+        };
+
+        for(int[] dir : directions)
+        {
+            int deltaRow = dir[0];
+            int deltaCol = dir[1];
+
+            for(int i=1; i<=board.endCol; i++)
+            {
+                // edge cases
+                if(currentRow + i*deltaRow > board.endRow || currentRow + i*deltaRow < board.startRow
+                   || currentCol + i*deltaCol > board.endCol || currentCol + i*deltaCol < board.startCol)
+                    break;
+
+                Piece surroundingPiece = board.getPiece(currentRow + i*deltaRow, currentCol + i*deltaCol);
+
+                if(surroundingPiece == null)
+                    availableMoves.add(new int[]{currentRow + i*deltaRow, currentCol + i*deltaCol});
+                else if(color.equals(surroundingPiece.color))
+                    break;
+                else if(!color.equals(surroundingPiece.color))
+                {
+                    availableMoves.add(new int[]{currentRow + i*deltaRow, currentCol + i*deltaCol});
+                    break;
+                }
+            }
+        }
